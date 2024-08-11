@@ -27,6 +27,24 @@ async function run() {
 
     const usersCollection = client.db("ecom-website").collection("userdata");
 
+    const productsCollection = client.db("ecom-website").collection("products");
+
+
+     // Endpoint to get all products
+     app.get("/api/products", async (req, res) => {
+      try {
+        const products = await productsCollection.find().toArray();
+        res.send(products);
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching products' });
+      }
+    });
+
+    // app.get("/country-name", async (req, res) => {
+    //   const result = await countriesCollection.find({}).toArray();
+    //   res.send(result);
+    // });
+
     app.post("/userdata-post", async (req, res) => {
         const data = req.body;
         const result = await usersCollection.insertOne(data);
